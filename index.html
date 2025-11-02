@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Podcast App</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <header>
-    <h1>🎙 Podcast App</h1>
-    <div class="search-filter">
-      <input type="text" id="searchInput" placeholder="Search podcasts...">
-      <select id="genreSelect">
-        <option value="all">All Genres</option>
-      </select>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Palesa’s Podcast Universe 🎧</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <h1 class="logo">HerPod</h1>
+      <p class="tagline">Voices. Code. Confidence.</p>
+    </header>
+
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Do It Afraid. <span>Code It Boldly.</span></h2>
+        <p>
+          Dive into inspiring stories of women redefining the tech world — one
+          line of code at a time.
+        </p>
+        <button class="cta">Explore Podcasts</button>
+      </div>
+      <img src="assets/images/woman-in-tech.jpg" alt="Podcasting" class="hero-img" />
+    </section>
+
+    <main>
+      <section id="podcasts" class="podcast-grid"></section>
+    </main>
+
+    <!-- Modal -->
+    <div id="podcastModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img id="modalImage" alt="Podcast cover" />
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+        <p id="modalGenres"></p>
+        <small id="modalDate"></small>
+      </div>
     </div>
-  </header>
 
-  <main>
-    <div id="podcastContainer" class="podcast-grid"></div>
-  </main>
+    <footer>
+      <p>Made with 💗 by Palesa Malatshi — Woman in Tech 2025</p>
+    </footer>
 
-  <footer>
-    <p>Created by <span>Palesa Malatshi</span> — Developer</p>
-  </footer>
-
-  <script type="module" src="app.js"></script>
-</body>
+    <script type="module" src="js/app.js"></script>
+  </body>
 </html>
