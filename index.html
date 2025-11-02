@@ -1,49 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Palesa’s Podcast Universe 🎧</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <header class="navbar">
-      <h1 class="logo">HerPod</h1>
-      <p class="tagline">Voices. Code. Confidence.</p>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎙️ MyPodcastApp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #f9f5ff;
+      --accent: #a78bfa;
+      --text-dark: #1e1e1e;
+      --text-light: #555;
+    }
 
-    <section class="hero">
-      <div class="hero-text">
-        <h2>Do It Afraid. <span>Code It Boldly.</span></h2>
-        <p>
-          Dive into inspiring stories of women redefining the tech world — one
-          line of code at a time.
-        </p>
-        <button class="cta">Explore Podcasts</button>
-      </div>
-      <img src="assets/images/woman-in-tech.jpg" alt="Podcasting" class="hero-img" />
-    </section>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
 
-    <main>
-      <section id="podcasts" class="podcast-grid"></section>
-    </main>
+    header.header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: var(--primary);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-    <!-- Modal -->
-    <div id="podcastModal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <img id="modalImage" alt="Podcast cover" />
-        <h3 id="modalTitle"></h3>
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+    }
+
+    .header-controls input,
+    .header-controls select {
+      margin-left: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+    }
+
+    main.podcast-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .podcast-card {
+      background: var(--primary);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .podcast-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .podcast-card img {
+      width: 100%;
+      object-fit: cover;
+      height: 180px;
+    }
+
+    .podcast-info {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex-grow: 1;
+    }
+
+    .podcast-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .podcast-description {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      flex-grow: 1;
+    }
+
+    .podcast-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .genre-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 8px;
+      margin-right: 4px;
+      text-transform: uppercase;
+    }
+
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    /* Modal styles */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 50;
+      display: none;
+    }
+
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      z-index: 60;
+      max-width: 600px;
+      width: 90%;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      display: none;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+    }
+
+    .modal-content {
+      display: flex;
+      gap: 1rem;
+      flex-direction: column;
+    }
+
+    .modal img {
+      width: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .modal-details h2 {
+      margin: 0;
+    }
+
+    .modal-details p {
+      margin: 0.5rem 0;
+      color: var(--text-light);
+    }
+
+    @media (max-width: 1200px) {
+      main.podcast-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      main.podcast-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      main.podcast-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-title">
+      <div class="logo">🎧</div>
+      <h1>MyPodcastApp</h1>
+    </div>
+    <div class="header-controls">
+      <input type="text" id="searchInput" placeholder="Search podcasts..." aria-label="Search podcasts">
+      <select id="genreFilter" aria-label="Filter by genre">
+        <option value="all">All Genres</option>
+      </select>
+      <select id="sortFilter" aria-label="Sort podcasts">
+        <option value="recent">Recently Updated</option>
+        <option value="seasons">Most Seasons</option>
+        <option value="title">Title A→Z</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="podcast-grid">
+    <!-- Cards will be injected by JS -->
+  </main>
+
+  <!-- Modal -->
+  <div id="modalBackdrop" class="modal-backdrop"></div>
+  <aside id="podcastModal" class="modal" role="dialog" aria-modal="true" tabindex="-1">
+    <button id="modalClose" class="modal-close" aria-label="Close modal">✕</button>
+    <div class="modal-content">
+      <img id="modalCover" src="" alt="Podcast Cover">
+      <div class="modal-details">
+        <h2 id="modalTitle"></h2>
         <p id="modalDescription"></p>
-        <p id="modalGenres"></p>
-        <small id="modalDate"></small>
+        <div id="modalGenres" class="genres"></div>
+        <div id="modalSeasons" class="seasons"></div>
       </div>
     </div>
+  </aside>
 
-    <footer>
-      <p>Made with 💗 by Palesa Malatshi — Woman in Tech 2025</p>
-    </footer>
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script>
+    const main = document.querySelector('main.podcast-grid');
 
-    <script type="module" src="js/app.js"></script>
-  </body>
+    // Shuffle podcasts so they scatter each page load
+    const shuffledPodcasts = [...podcasts].sort(() => Math.random() - 0.5);
+
+    // Replace last podcast image with your favorite
+    const favoriteImage = "https://images.unsplash.com/photo-1519682577862-22b62b24e493";
+    shuffledPodcasts[shuffledPodcasts.length - 1].image = favoriteImage;
+
+    shuffledPodcasts.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'podcast-card';
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.title}">
+        <div class="podcast-info">
+          <h3 class="podcast-title">${p.title}</h3>
+          <p class="podcast-description">${p.description}</p>
+          <div class="badge-container">
+            ${p.genres.map(gId => `<span class="genre-badge">${genres.find(g => g.id === gId).title}</span>`).join('')}
+          </div>
+          <div class="podcast-meta">
+            <span>${p.seasons} seasons</span>
+            <span>${new Date(p.updated).toLocaleDateString()}</span>
+          </div>
+        </div>
+      `;
+      main.appendChild(card);
+
+      // Modal functionality
+      card.addEventListener('click', () => {
+        document.getElementById('modalCover').src = p.image;
+        document.getElementById('modalTitle').textContent = p.title;
+        document.getElementById('modalDescription').textContent = p.description;
+        document.getElementById('modalGenres').innerHTML = p.genres.map(gId => `<span class="genre-badge">${genres.find(g => g.id === gId).title}</span>`).join('');
+        document.getElementById('modalSeasons').textContent = `${p.seasons} seasons`;
+        document.getElementById('modalBackdrop').style.display = 'block';
+        document.getElementById('podcastModal').style.display = 'flex';
+      });
+    });
+
+    // Modal close
+    const closeModal = () => {
+      document.getElementById('modalBackdrop').style.display = 'none';
+      document.getElementById('podcastModal').style.display = 'none';
+    };
+
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalBackdrop').addEventListener('click', closeModal);
+  </script>
+  <script src="app.js"></script>
+</body>
 </html>

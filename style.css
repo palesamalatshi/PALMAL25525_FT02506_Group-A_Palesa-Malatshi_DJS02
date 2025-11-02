@@ -1,0 +1,220 @@
+/* 💖 Soft Glass Modern Pink Theme */
+:root {
+  --bg-gradient: linear-gradient(120deg, #ffe6ef, #fef6f9, #fff);
+  --card-bg: rgba(255, 255, 255, 0.4);
+  --primary: rgba(255, 255, 255, 0.4); /* for new floating cards */
+  --text-color: #432b3c;
+  --accent-color: #e36488;
+  --accent-light: #ffadc1;
+  --radius: 18px;
+  --shadow: 0 6px 24px rgba(255, 192, 203, 0.35);
+  --font-main: 'Poppins', sans-serif;
+  --font-logo: 'Dancing Script', cursive;
+}
+
+/* BODY */
+body {
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  font-family: var(--font-main);
+  margin: 0;
+  min-height: 100vh;
+  backdrop-filter: blur(8px);
+}
+
+/* HEADER */
+.header {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 182, 193, 0.4);
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logo-title h1 {
+  font-family: var(--font-logo);
+  font-size: 2.6rem;
+  color: var(--accent-color);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.logo {
+  font-size: 2.4rem;
+}
+
+/* CONTROLS */
+.header-controls input,
+.header-controls select {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 182, 193, 0.6);
+  color: var(--text-color);
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius);
+  margin: 0.3rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(255, 192, 203, 0.2);
+}
+
+.header-controls input::placeholder {
+  color: #a5677a;
+}
+
+.header-controls input:focus,
+.header-controls select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 8px var(--accent-light);
+}
+
+/* PODCAST GRID */
+.podcast-grid {
+  display: grid;
+  gap: 1.8rem;
+  padding: 2.5rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1100px) {
+  .podcast-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .podcast-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* PODCAST CARD — Updated with floating & scatter */
+.podcast-card {
+  background: var(--primary);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transform: rotate(calc(-2deg + 4 * var(--i)));
+  animation: float 4s ease-in-out infinite;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 182, 193, 0.5);
+}
+
+.podcast-card:hover {
+  transform: translateY(-15px) rotate(0deg) scale(1.03);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(calc(-2deg + 4 * var(--i))); }
+  50% { transform: translateY(-5px) rotate(calc(-2deg + 4 * var(--i))); }
+}
+
+.podcast-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.podcast-card img:hover {
+  opacity: 0.9;
+}
+
+.card-info {
+  padding: 1rem;
+}
+
+.podcast-card h3 {
+  font-size: 1.1rem;
+  margin: 0.4rem 0;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.podcast-card p {
+  font-size: 0.9rem;
+  color: #6b4f5b;
+  margin: 0.3rem 0;
+}
+
+/* MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 192, 203, 0.3);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 32px rgba(255, 192, 203, 0.4);
+  overflow-y: auto;
+  z-index: 60;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.modal-close:hover {
+  transform: scale(1.1);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 700px) {
+  .modal-content {
+    flex-direction: row;
+  }
+  .modal img {
+    width: 45%;
+    border-radius: var(--radius);
+  }
+  .modal-details {
+    width: 55%;
+  }
+}
+
+/* EXTRAS */
+button, select {
+  cursor: pointer;
+}
