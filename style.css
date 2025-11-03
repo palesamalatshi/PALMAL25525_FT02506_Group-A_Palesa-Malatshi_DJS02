@@ -1,220 +1,281 @@
-/* 💖 Soft Glass Modern Pink Theme */
-:root {
-  --bg-gradient: linear-gradient(120deg, #ffe6ef, #fef6f9, #fff);
-  --card-bg: rgba(255, 255, 255, 0.4);
-  --primary: rgba(255, 255, 255, 0.4); /* for new floating cards */
-  --text-color: #432b3c;
-  --accent-color: #e36488;
-  --accent-light: #ffadc1;
+/* 💖 MyPodcastApp — Full merged stylesheet (soft glass pink + scatter + modal) */
+
+/* === Variables === */
+:root{
+  --bg-gradient: linear-gradient(120deg,#fff6f8 0%, #fff 40%);
+  --glass: rgba(255,255,255,0.55);
+  --card-bg: rgba(255,255,255,0.65);
+  --primary: rgba(255,255,255,0.4);
+  --accent: #e36488;
+  --accent-soft: #ffd7e6;
+  --text: #432b3c;
+  --muted: #7b5a67;
   --radius: 18px;
-  --shadow: 0 6px 24px rgba(255, 192, 203, 0.35);
-  --font-main: 'Poppins', sans-serif;
-  --font-logo: 'Dancing Script', cursive;
+  --shadow: 0 8px 28px rgba(195,108,140,0.12);
+  --float-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  --font-main: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-logo: "Dancing Script", cursive;
 }
 
-/* BODY */
-body {
+/* === Base / Reset-ish === */
+* { box-sizing: border-box; }
+html,body { height:100%; }
+body{
+  margin:0;
+  min-height:100vh;
   background: var(--bg-gradient);
-  color: var(--text-color);
+  color: var(--text);
   font-family: var(--font-main);
-  margin: 0;
-  min-height: 100vh;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-feature-settings: "liga" 1;
+}
+
+/* === Header === */
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.25rem 2rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.6));
+  border-bottom: 1px solid rgba(227,178,197,0.35);
   backdrop-filter: blur(8px);
 }
 
-/* HEADER */
-.header {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 182, 193, 0.4);
-  padding: 1.5rem 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+.logo-title{
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
 }
-
-.logo-title {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.logo-title h1 {
+.logo-title h1{
   font-family: var(--font-logo);
-  font-size: 2.6rem;
-  color: var(--accent-color);
-  margin: 0;
-  letter-spacing: 1px;
+  color: var(--accent);
+  font-size: 2.25rem;
+  margin:0;
+  letter-spacing:1px;
+}
+.logo{ font-size:1.9rem; }
+
+.header-controls{
+  display:flex;
+  gap:0.6rem;
+  align-items:center;
+  margin-top:0;
 }
 
-.logo {
-  font-size: 2.4rem;
-}
-
-/* CONTROLS */
 .header-controls input,
-.header-controls select {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 182, 193, 0.6);
-  color: var(--text-color);
-  padding: 0.7rem 0.9rem;
+.header-controls select{
+  padding:0.6rem 0.8rem;
+  border-radius:12px;
+  border:1px solid rgba(227,178,197,0.35);
+  background: rgba(255,255,255,0.85);
+  font-size:0.95rem;
+  color:var(--text);
+  min-width:140px;
+  box-shadow: inset 0 2px 6px rgba(255,255,255,0.6);
+}
+.header-controls input::placeholder{ color:#b8959e; }
+
+/* === Grid: 4 per row desktop === */
+.podcast-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 per row on desktop */
+  gap:1.6rem;
+  padding:2.2rem;
+  align-items:start;
+}
+
+/* responsive */
+@media (max-width:1200px){ .podcast-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width:900px){
+  .podcast-grid { grid-template-columns: repeat(2, 1fr); }
+  .header-controls{ width:100%; justify-content:flex-end; }
+}
+@media (max-width:600px){
+  .podcast-grid { grid-template-columns: 1fr; }
+  .header-controls{ flex-direction:column; align-items:stretch }
+}
+
+/* === Card styles (floating / scatter) === */
+.podcast-card{
+  background: var(--card-bg);
   border-radius: var(--radius);
-  margin: 0.3rem;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  box-shadow: inset 0 2px 4px rgba(255, 192, 203, 0.2);
-}
-
-.header-controls input::placeholder {
-  color: #a5677a;
-}
-
-.header-controls input:focus,
-.header-controls select:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 8px var(--accent-light);
-}
-
-/* PODCAST GRID */
-.podcast-grid {
-  display: grid;
-  gap: 1.8rem;
-  padding: 2.5rem;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-@media (max-width: 1100px) {
-  .podcast-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .podcast-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* PODCAST CARD — Updated with floating & scatter */
-.podcast-card {
-  background: var(--primary);
-  border-radius: var(--radius);
-  overflow: hidden;
+  overflow:hidden;
   box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  cursor:pointer;
+  transition: transform .45s cubic-bezier(.16,.84,.3,1), box-shadow .45s ease, background .35s ease;
+  display:flex;
+  flex-direction:column;
+  position:relative;
   transform: rotate(calc(-2deg + 4 * var(--i)));
   animation: float 4s ease-in-out infinite;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 182, 193, 0.5);
-}
-
-.podcast-card:hover {
-  transform: translateY(-15px) rotate(0deg) scale(1.03);
-  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
-  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+  border: 1px solid rgba(255, 215, 230, 0.5);
+  backdrop-filter: blur(6px);
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(calc(-2deg + 4 * var(--i))); }
-  50% { transform: translateY(-5px) rotate(calc(-2deg + 4 * var(--i))); }
+  0%,100%{ transform: translateY(0) rotate(calc(-2deg + 4 * var(--i))); }
+  50%{ transform: translateY(-6px) rotate(calc(-2deg + 4 * var(--i))); }
 }
 
-.podcast-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  transition: opacity 0.3s ease;
+.podcast-card:hover{
+  transform: translateY(-18px) rotate(0deg) scale(1.02);
+  box-shadow: var(--float-shadow);
+  background: linear-gradient(135deg,#fff0f4,#fffafc);
 }
 
-.podcast-card img:hover {
-  opacity: 0.9;
+/* highlight modifier for the last podcast (also can be applied inline by JS) */
+.podcast-card--highlight{
+  border: 3px solid #ff77aa;
+  box-shadow: 0 20px 50px rgba(255,119,170,0.18);
+  transform: translateY(-10px) rotate(0deg) scale(1.02);
 }
 
-.card-info {
-  padding: 1rem;
+/* image */
+.podcast-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  display:block;
+  transition:opacity .25s ease;
+}
+.podcast-card img:hover{ opacity:.95; }
+
+/* info */
+.podcast-info{
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.5rem;
+  min-height:120px;
+}
+.podcast-title{
+  margin:0;
+  font-size:1.05rem;
+  color:var(--accent);
+  font-weight:600;
+}
+.podcast-description{
+  margin:0;
+  color:var(--muted);
+  font-size:0.9rem;
+  line-height:1.35;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.badge-container{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.genre-badge{
+  background: linear-gradient(180deg,var(--accent) 0%, #c96a87 100%);
+  color:#fff;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:.6px;
 }
 
-.podcast-card h3 {
-  font-size: 1.1rem;
-  margin: 0.4rem 0;
-  color: var(--accent-color);
-  font-weight: 600;
-}
+/* meta row */
+.podcast-meta{ display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--muted); margin-top:6px; }
 
-.podcast-card p {
-  font-size: 0.9rem;
-  color: #6b4f5b;
-  margin: 0.3rem 0;
-}
-
-/* MODAL */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(255, 192, 203, 0.3);
+/* === Modal backdrop + modal centered with blur background === */
+/* backdrop element: full screen dim */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.36);
+  z-index:80;
+  display:none;
   backdrop-filter: blur(6px);
-  z-index: 50;
 }
 
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 800px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: var(--radius);
-  box-shadow: 0 10px 32px rgba(255, 192, 203, 0.4);
-  overflow-y: auto;
-  z-index: 60;
-  padding: 2rem;
-  color: var(--text-color);
+/* modal wrapper */
+.modal{
+  display:none; /* toggled via JS */
+  position:fixed;
+  z-index:90;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:92%;
+  max-width:860px;
+  max-height:88vh;
+  background: #fff;
+  border-radius: 16px;
+  padding:1.2rem;
+  box-shadow:0 20px 60px rgba(0,0,0,0.18);
+  overflow:auto;
 }
 
-.modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  border: none;
-  font-size: 1.8rem;
-  color: var(--accent-color);
-  cursor: pointer;
-  transition: transform 0.2s ease;
+/* modal content layout: mobile-first vertical, row on larger screens */
+.modal-content{
+  display:flex;
+  gap:1rem;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+@media(min-width:720px){
+  .modal-content{ flex-direction:row; align-items:flex-start; text-align:left; }
+  .modal img{ width:42%; }
+  .modal .modal-details{ width:58%; }
 }
 
-.modal-close:hover {
-  transform: scale(1.1);
+/* modal image */
+.modal img{
+  border-radius:12px;
+  width:100%;
+  height:auto;
+  max-height:320px;
+  object-fit:cover;
 }
 
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+/* modal details */
+.modal-details h2{ margin:0 0 .5rem 0; color:var(--accent); font-size:1.4rem; }
+.modal-details p{ margin:0 0 .8rem 0; color:var(--muted) }
+
+/* seasons list (vertical cards under description) */
+.season-list{ list-style:none; padding:0; margin:0; display:block; }
+.season-list li{ background:#fff6fb; border-radius:10px; padding:.5rem .75rem; margin-bottom:.5rem; color:var(--text) }
+
+/* modal controls */
+.modal-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:transparent;
+  border:none;
+  font-size:1.2rem;
+  cursor:pointer;
+  color:var(--accent);
 }
 
-@media (min-width: 700px) {
-  .modal-content {
-    flex-direction: row;
-  }
-  .modal img {
-    width: 45%;
-    border-radius: var(--radius);
-  }
-  .modal-details {
-    width: 55%;
-  }
+/* === Extra modal-centered style you requested (vertical under image, centered content) === */
+/* If you prefer the modal to be fully centered with background blur effect, JS toggles .modal & .modal-backdrop */
+.modal.centered {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  backdrop-filter: blur(8px);
 }
 
-/* EXTRAS */
-button, select {
-  cursor: pointer;
+/* alternative modal-inner presentation for small screens */
+@media (max-width:520px){
+  .modal { padding: 0.8rem; }
+  .modal img { max-height:220px; border-radius:10px; }
+  .modal-details h2 { font-size:1.2rem; }
 }
+
+/* small niceties */
+.pulse { animation: pulse 2s infinite; }
+@keyframes pulse{ 0%{transform:scale(1)}50%{transform:scale(1.01)}100%{transform:scale(1)} }
+
+/* Accessibility helpers */
+.sr-only { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+
+/* end of stylesheet */
