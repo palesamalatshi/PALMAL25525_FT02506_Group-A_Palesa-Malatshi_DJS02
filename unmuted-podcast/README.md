@@ -1,122 +1,180 @@
-# 🎧 MyPodcastApp — DJS02 Vanilla JS Project
+🎙️ UNMUTED Podcast App
 
-## 📖 Project Overview
-**MyPodcastApp** is a modern, responsive podcast discovery web application built with **Vanilla JavaScript, HTML, and CSS**.  
-It allows users to browse, search, filter, and sort through various podcasts — each with detailed descriptions, genres, and number of seasons.  
-The app features a soft feminine glassmorphism theme to create a soothing, elegant user experience.
+A modular, scalable podcast web application built using Vanilla JavaScript and Modern Web Components.
 
----
+UNMUTED is a podcast discovery platform focused on powerful conversations around identity, justice, healing, and lived experiences.
 
-## 🧠 Learning Outcomes & Skills Demonstrated
+🚀 Project Overview
+
 This project demonstrates:
-- **DOM Manipulation**: Dynamic creation of podcast cards and modal elements using JavaScript.
-- **Data Handling**: Integration of separate `data.js` for structured podcast, genre, and season data.
-- **Event Handling**: Interactive filtering, searching, and sorting functions with real-time updates.
-- **UI/UX Design**: Responsive and accessible layout with a clean, aesthetic design.
-- **JavaScript Logic**: Implementation of reusable functions for filtering and modal management.
-- **Code Organization**: Separation of concerns (HTML, CSS, and JS) with well-commented code.
 
----
+Modular JavaScript architecture
 
-## 🎨 Design Inspiration
-The app uses a **soft glass pink aesthetic** inspired by feminine design — balancing **minimalism** and **elegance**:
-- Gradient pastel background  
-- Translucent floating podcast cards with hover animation  
-- Smooth shadows and rounded corners  
-- Playful yet professional typography
+Custom Elements (Web Components)
 
----
+Shadow DOM encapsulation
 
-## ⚙️ Features Implemented
-✅ **Display Podcast Previews**  
-- Dynamically loads podcasts from the `data.js` file.  
-- Each card includes a title, image, short description, genre badges, and number of seasons.  
+Event-driven component communication
 
-✅ **Search Functionality**  
-- Users can search podcasts by title in real time.
+Clean separation of concerns
 
-✅ **Genre Filter**  
-- Filters podcasts by category (e.g., Wellness, True Crime, Business).  
+Maintainable and scalable frontend design
 
-✅ **Sort Options**  
-- Sorts podcasts by most recent, most seasons, or alphabetically.  
+The application renders podcast previews in a responsive grid layout. Each preview is implemented as a reusable Web Component. When clicked, a modal Web Component displays detailed podcast information.
 
-✅ **Modal Display**  
-- Clicking a podcast opens a detailed modal with:
-  - Large cover image  
-  - Description  
-  - Genre tags  
-  - Season count  
+🧱 Architecture
 
-✅ **Responsive Design**  
-- Grid automatically adapts from 4 columns → 2 → 1 based on screen size.  
+The application follows a modular, component-based architecture:
 
-✅ **Scattered Layout**  
-- Cards load with slight randomized rotation to create a playful, scrapbook-like layout.
-
-✅ **Randomized Order**
-- Podcasts shuffle on each reload for variety and a dynamic feel.
-
----
-
-## 🧩 File Structure
-📂 MyPodcastApp
+src/
 │
-├── index.html # Main HTML file
-├── style.css # Main CSS file (Glass pink theme)
-├── data.js # Podcast + genres + seasons data
-└── app.js # JS logic for interactivity and filtering
+├── components/
+│   ├── PodcastCard.js      → Custom Web Component (preview card)
+│   ├── PodcastModal.js     → Custom Web Component (modal)
+│
+├── utils/
+│   ├── DateUtils.js        → Date formatting utility
+│   ├── GenreService.js     → Genre resolution service
+│
+├── views/
+│   └── createGrid.js       → Grid rendering logic
+│
+├── data.js                 → Application data layer
+└── index.js                → Application controller (entry point)
+
+🧩 Web Components Implementation
+1️⃣ <podcast-card>
+
+Extends HTMLElement
+
+Uses Shadow DOM for encapsulation
+
+Receives podcast data via property
+
+Dispatches a CustomEvent when clicked
+
+Fully reusable and stateless
+
+2️⃣ <podcast-modal>
+
+Extends HTMLElement
+
+Uses Shadow DOM
+
+Receives podcast data via property
+
+Dynamically renders podcast details
+
+Manages open/close behavior internally
+
+🔁 Event-Driven Architecture
+
+Components communicate using Custom Events.
+
+Flow:
+
+PodcastCard click
+   ↓
+Dispatch "open-modal" event
+   ↓
+index.js listens for event
+   ↓
+PodcastModal receives podcast data
+   ↓
+Modal renders and opens
 
 
----
+This ensures:
 
-## 🔍 How It Works
-1. `data.js` provides arrays of podcasts and genres.  
-2. `index.html` loads all structure and includes `<script src="data.js"></script>` before `app.js`.  
-3. `app.js`:
-   - Reads podcast data
-   - Renders them as cards
-   - Attaches event listeners for search, filter, and modal functions  
-4. CSS gives the app its modern, glassy, feminine interface.
+Loose coupling
 
----
+Scalability
 
-## 🧾 Rubric Alignment — DJS02
-| Criteria | Description | Achieved |
-|-----------|--------------|-----------|
-| **P3.1** | Landing Page displays podcast previews dynamically | ✅ |
-| **P3.2** | Podcasts are interactive, displaying detailed modal info | ✅ |
-| **P3.3** | User can search and filter by genre | ✅ |
-| **P3.4** | Podcasts can be sorted (recent, seasons, alphabetical) | ✅ |
-| **P3.5** | Application is responsive and visually consistent | ✅ |
-| **P3.6** | Data is loaded and used dynamically from external file | ✅ |
+Maintainability
 
----
+Clear separation of responsibilities
 
-## 🧍🏽‍♀️ Developer
-**Name:** Palesa Malatshi  
-**Module:** DJS02 — Abstraction with Vanilla JavaScript  
-**Institution:** [Your Institution Name Here]  
-**Year:** 2025  
+🎨 UI/UX Design Features
 
-> “Building elegant experiences through creativity and clean code.”
+Responsive CSS Grid layout
 
----
+Dark theme inspired by modern streaming platforms
 
-## 💫 Future Improvements
-- Add “favorite podcast” bookmarking system using localStorage.  
-- Include pagination or “Load More” feature.  
-- Fetch podcast data from a live API instead of a local JS file.  
+Hover interactions for podcast cards
 
----
+Encapsulated modal with scrollable content
 
-## 🖼️ Preview
-![Screenshot of MyPodcastApp UI](#)  
-*(Add your screenshot here before submission!)*
+Mobile-responsive layout adjustments
 
----
+Human-readable date formatting
 
-## 🧩 Technologies Used
-- **HTML5**
-- **CSS3 (Glassmorphism + Responsive Grid)**
-- **Vanilla JavaScript (ES6+)**
+🛠️ Design Principles Applied
+✅ Single Responsibility Principle (SRP)
+
+Each module handles one concern:
+
+Utilities handle formatting and data mapping
+
+Components handle UI rendering
+
+index.js handles orchestration
+
+✅ Open/Closed Principle (OCP)
+
+Components are extensible without modifying existing logic.
+
+✅ Encapsulation
+
+Shadow DOM ensures:
+
+Styles do not leak
+
+Component logic remains isolated
+
+No global CSS interference
+
+📦 Technologies Used
+
+HTML5
+
+CSS3 (Grid, Flexbox, Responsive Design)
+
+ES6 Modules
+
+Custom Elements API
+
+Shadow DOM
+
+Git & GitHub for version control
+
+🧠 Learning Outcomes
+
+This project demonstrates:
+
+Building reusable UI components without frameworks
+
+Implementing Web Components using Custom Elements
+
+Managing state via property-driven components
+
+Using event-driven communication patterns
+
+Writing maintainable, documented JavaScript
+
+🔮 Future Improvements
+
+Genre filtering and sorting
+
+Attribute-based component configuration
+
+Accessibility improvements (ARIA roles)
+
+Animations and micro-interactions
+
+Backend integration for dynamic content
+
+React wrapper for portfolio extension
+
+👩🏽‍💻 Author
+
+Developed as part of a modular JavaScript assignment demonstrating modern frontend architecture principles.
